@@ -9,6 +9,7 @@ import {
     ButtonStyle
 } from "discord.js";
 import axios from "axios";
+import express from "express";
 import "dotenv/config";
 
 const DEFAULT_TONE = "friendly";
@@ -274,5 +275,21 @@ client.once("ready", async () => {
     console.log(`🤖 Logged in as ${client.user.tag}`);
     await registerCommands();
 });
+
+/* ======================
+   KEEP-ALIVE SERVER (Render)
+====================== */
+
+const app = express();
+
+app.get("/", (req, res) => {
+    res.send("Discord bot is running.");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🌐 Web server listening on port ${PORT}`);
+});
+
 
 client.login(process.env.DISCORD_TOKEN);
